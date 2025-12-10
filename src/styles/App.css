@@ -663,3 +663,438 @@ body {
     font-size: 1.25rem;
   }
 }
+
+/* ========================================
+   HEADER ADMIN BUTTON
+   ======================================== */
+.header-admin-btn {
+  margin-top: 16px;
+  padding: 12px 24px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-lg);
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.header-admin-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+/* ========================================
+   ADMIN PANEL
+   ======================================== */
+.admin-panel {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.admin-header {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.admin-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.admin-header-left h2 {
+  font-size: 1.5rem;
+  color: var(--gray-800);
+  margin: 0;
+}
+
+.admin-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.admin-btn-back {
+  padding: 10px 16px;
+  background: var(--gray-100);
+  border: none;
+  border-radius: var(--radius-md);
+  color: var(--gray-700);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-btn-back:hover {
+  background: var(--gray-200);
+  color: var(--gray-900);
+}
+
+.admin-total {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--gray-50);
+  border-radius: var(--radius-md);
+}
+
+.admin-total-label {
+  font-size: 0.875rem;
+  color: var(--gray-500);
+}
+
+.admin-total-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.admin-total-separator {
+  color: var(--gray-400);
+}
+
+.admin-total-meta {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--gray-600);
+}
+
+.admin-btn-save {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  border: none;
+  border-radius: var(--radius-md);
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.admin-btn-save:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.admin-btn-save.saved {
+  background: linear-gradient(135deg, var(--success), #059669);
+}
+
+/* Admin Content */
+.admin-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.admin-segment {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-lg);
+}
+
+.admin-segment-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--gray-100);
+}
+
+.admin-segment-header h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--gray-800);
+  margin: 0;
+}
+
+/* Admin Cards Grid */
+.admin-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.admin-card {
+  background: var(--gray-50);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  border: 1px solid var(--gray-200);
+  transition: all 0.2s ease;
+}
+
+.admin-card:hover {
+  border-color: var(--primary-light);
+  box-shadow: var(--shadow-md);
+}
+
+.admin-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.admin-card-header h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gray-800);
+  margin: 0;
+}
+
+.admin-status {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius-xl);
+  background: var(--warning-light);
+  color: #92400e;
+}
+
+.admin-status.complete {
+  background: var(--success-light);
+  color: #065f46;
+}
+
+.admin-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.admin-field label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.admin-field input {
+  padding: 10px 12px;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--gray-800);
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.admin-field input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.admin-input-group {
+  display: flex;
+  gap: 8px;
+}
+
+.admin-input-group input {
+  flex: 1;
+}
+
+.admin-btn-adjust {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius);
+  background: white;
+  color: var(--gray-600);
+  font-size: 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-btn-adjust:hover:not(:disabled) {
+  background: var(--gray-100);
+  border-color: var(--gray-400);
+}
+
+.admin-btn-adjust:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.admin-btn-adjust.add {
+  background: var(--success-light);
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.admin-btn-adjust.add:hover {
+  background: var(--success);
+  color: white;
+}
+
+/* Admin Progress */
+.admin-progress-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.admin-progress-bar {
+  flex: 1;
+  height: 8px;
+  background: var(--gray-200);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+.admin-progress-fill {
+  height: 100%;
+  border-radius: var(--radius-xl);
+  transition: width 0.3s ease;
+  background: var(--warning);
+}
+
+.admin-progress-fill.complete {
+  background: var(--success);
+}
+
+.admin-progress-fill.warning {
+  background: var(--warning);
+}
+
+.admin-progress-fill.danger {
+  background: var(--danger);
+}
+
+.admin-progress-text {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  min-width: 50px;
+  text-align: right;
+}
+
+/* Quick Actions */
+.admin-quick-actions {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-lg);
+}
+
+.admin-quick-actions h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--gray-800);
+  margin: 0 0 8px 0;
+}
+
+.admin-quick-actions p {
+  font-size: 0.875rem;
+  color: var(--gray-500);
+  margin: 0 0 16px 0;
+}
+
+.quick-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.quick-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 16px;
+  background: var(--gray-50);
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 80px;
+}
+
+.quick-btn:hover {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.quick-btn.complete {
+  background: var(--success-light);
+  border-color: var(--success);
+  color: #065f46;
+}
+
+.quick-btn.complete:hover {
+  background: var(--success);
+  color: white;
+}
+
+.quick-btn-count {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+/* Admin Responsive */
+@media (max-width: 768px) {
+  .admin-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-header-left {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .admin-header-right {
+    flex-direction: column;
+  }
+
+  .admin-total {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .admin-btn-save {
+    width: 100%;
+  }
+
+  .admin-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .quick-buttons {
+    justify-content: center;
+  }
+}
