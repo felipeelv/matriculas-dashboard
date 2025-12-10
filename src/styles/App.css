@@ -372,6 +372,47 @@ body {
   background: linear-gradient(90deg, var(--success-light), transparent);
 }
 
+/* Cabecalho de Segmento */
+.segment-header {
+  background: linear-gradient(90deg, var(--gray-50), white);
+}
+
+.segment-header td {
+  padding: 16px 20px !important;
+  border-bottom: 2px solid var(--gray-200) !important;
+}
+
+.segment-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gray-800);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.segment-icon {
+  font-size: 1.25rem;
+}
+
+/* Linha de Subtotal */
+.subtotal-row {
+  background: var(--gray-50);
+  border-top: 2px solid var(--gray-200);
+}
+
+.subtotal-row td {
+  padding: 14px 20px !important;
+  border-bottom: 2px solid var(--gray-300) !important;
+  color: var(--gray-800);
+}
+
+.subtotal-row:hover {
+  background: var(--gray-100) !important;
+}
+
 .serie-name {
   font-weight: 600;
   color: var(--gray-800);
