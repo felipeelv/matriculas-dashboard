@@ -528,6 +528,192 @@ body {
 .status-badge.critical .status-dot { background: #dc2626; }
 
 /* ========================================
+   TURMAS
+   ======================================== */
+
+/* Legenda de Turmas */
+.turma-legend {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 16px 24px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  animation: fadeInUp 0.5s ease-out backwards;
+  animation-delay: 0.55s;
+}
+
+.turma-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  color: var(--gray-600);
+}
+
+.turma-legend-info {
+  display: flex;
+  gap: 20px;
+  font-size: 0.875rem;
+  color: var(--gray-500);
+}
+
+/* Celula de Turma na Tabela */
+.turma-cell {
+  min-width: 180px;
+}
+
+.turma-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.turmas-completas {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.turma-atual {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Badge de Turma */
+.turma-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 8px;
+  border-radius: var(--radius);
+  font-size: 0.75rem;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.turma-badge.small {
+  min-width: 24px;
+  height: 24px;
+  font-size: 0.7rem;
+}
+
+.turma-badge.complete {
+  background: var(--success);
+  color: white;
+}
+
+.turma-badge.current {
+  background: var(--primary);
+  color: white;
+  animation: pulse 2s infinite;
+}
+
+.turma-badge.empty {
+  background: var(--gray-200);
+  color: var(--gray-500);
+}
+
+.turma-check {
+  font-size: 0.65rem;
+}
+
+/* Progresso da Turma */
+.turma-progress {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 80px;
+  max-width: 120px;
+}
+
+.turma-progress-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--gray-200);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+.turma-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  border-radius: var(--radius-xl);
+  transition: width 0.3s ease;
+}
+
+.turma-progress-text {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--gray-600);
+  white-space: nowrap;
+}
+
+.turma-faltam {
+  font-size: 0.7rem;
+  color: var(--gray-500);
+  white-space: nowrap;
+}
+
+.turma-summary {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--gray-600);
+}
+
+/* Info do segmento */
+.segment-info {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--gray-500);
+  margin-left: 8px;
+}
+
+/* Responsivo para Turmas */
+@media (max-width: 1024px) {
+  .turma-legend {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .turma-legend-info {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .turma-cell {
+    min-width: 140px;
+  }
+
+  .turma-progress {
+    max-width: 80px;
+  }
+}
+
+@media (max-width: 768px) {
+  .turma-atual {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .turma-progress {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+/* ========================================
    FOOTER
    ======================================== */
 .footer {
