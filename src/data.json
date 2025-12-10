@@ -1,0 +1,106 @@
+[
+  {
+    "serie": "1° ANO",
+    "total_2025": 50,
+    "total_2026": 19,
+    "meta": 52,
+    "gap": 33,
+    "percentual": 36.5
+  },
+  {
+    "serie": "1° SÉRIE",
+    "total_2025": 49,
+    "total_2026": 30,
+    "meta": 51,
+    "gap": 21,
+    "percentual": 58.8
+  },
+  {
+    "serie": "2° ANO",
+    "total_2025": 46,
+    "total_2026": 39,
+    "meta": 48,
+    "gap": 9,
+    "percentual": 81.2
+  },
+  {
+    "serie": "2° SÉRIE",
+    "total_2025": 0,
+    "total_2026": 20,
+    "meta": 40,
+    "gap": 20,
+    "percentual": 50.0
+  },
+  {
+    "serie": "3° ANO",
+    "total_2025": 51,
+    "total_2026": 29,
+    "meta": 53,
+    "gap": 24,
+    "percentual": 54.7
+  },
+  {
+    "serie": "3° SÉRIE",
+    "total_2025": 0,
+    "total_2026": 1,
+    "meta": 40,
+    "gap": 39,
+    "percentual": 2.5
+  },
+  {
+    "serie": "4° ANO",
+    "total_2025": 57,
+    "total_2026": 31,
+    "meta": 61,
+    "gap": 30,
+    "percentual": 50.8
+  },
+  {
+    "serie": "5° ANO",
+    "total_2025": 56,
+    "total_2026": 34,
+    "meta": 58,
+    "gap": 24,
+    "percentual": 58.6
+  },
+  {
+    "serie": "6° ANO",
+    "total_2025": 25,
+    "total_2026": 35,
+    "meta": 26,
+    "gap": -9,
+    "percentual": 134.6
+  },
+  {
+    "serie": "6º ANO",
+    "total_2025": 26,
+    "total_2026": 0,
+    "meta": 27,
+    "gap": 27,
+    "percentual": 0.0
+  },
+  {
+    "serie": "7º ANO",
+    "total_2025": 46,
+    "total_2026": 34,
+    "meta": 48,
+    "gap": 14,
+    "percentual": 70.8
+  },
+  {
+    "serie": "8º ANO",
+    "total_2025": 38,
+    "total_2026": 29,
+    "meta": 40,
+    "gap": 11,
+    "percentual": 72.5
+  },
+  {
+    "serie": "9º ANO",
+    "total_2025": 54,
+    "total_2026": 26,
+    "meta": 56,
+    "gap": 30,
+    "percentual": 46.4
+  }
+]
