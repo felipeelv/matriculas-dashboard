@@ -4,7 +4,7 @@ import './styles/App.css';
 import dados from './data.json';
 
 function App() {
-  const total2025 = 541;
+  const total2025 = dados.reduce((acc, curr) => acc + curr.total_2025, 0);
   const total2026 = dados.reduce((acc, curr) => acc + curr.total_2026, 0);
   const meta = 600;
   const gap = meta - total2026;
@@ -13,11 +13,11 @@ function App() {
   return (
     <div className="container">
       <header className="header">
-        <h1>📊 Dashboard de Matrículas 2026</h1>
-        <p>Acompanhamento em Tempo Real do Progresso de Captação</p>
+        <h1>Dashboard de Matriculas 2026</h1>
+        <p>Acompanhamento em Tempo Real do Progresso de Captacao</p>
       </header>
 
-      <Dashboard 
+      <Dashboard
         dados={dados}
         total2025={total2025}
         total2026={total2026}
@@ -27,7 +27,10 @@ function App() {
       />
 
       <footer className="footer">
-        <p>🔄 Atualizado em: {new Date().toLocaleString('pt-BR')}</p>
+        <div className="footer-content">
+          <span className="footer-dot"></span>
+          <span>Atualizado em: {new Date().toLocaleString('pt-BR')}</span>
+        </div>
       </footer>
     </div>
   );
