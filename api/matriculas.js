@@ -1,11 +1,10 @@
-import { get } from '@vercel/edge-config';
+import { neon } from '@neondatabase/serverless';
 
 export const config = {
   runtime: 'edge',
 };
 
 export default async function handler(request) {
-  // CORS headers
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
@@ -13,21 +12,31 @@ export default async function handler(request) {
     'Content-Type': 'application/json',
   };
 
-  // Handle preflight
   if (request.method === 'OPTIONS') {
     return new Response(null, { headers });
   }
 
-  // GET - Ler dados do Edge Config
+  const databaseUrl = process.env.DATABASE_URL;
+
+  if (!databaseUrl) {
+    return new Response(JSON.stringify({
+      success: false,
+      error: 'DATABASE_URL não configurado'
+    }), { status: 500, headers });
+  }
+
+  const sql = neon(databaseUrl);
+
+  // GET - Buscar todas as matrículas
   if (request.method === 'GET') {
     try {
-      const matriculas = await get('matriculas');
+      const rows = await sql`SELECT * FROM matriculas ORDER BY id`;
 
-      if (matriculas) {
-        return new Response(JSON.stringify({ success: true, data: matriculas }), { headers });
+      if (rows && rows.length > 0) {
+        return new Response(JSON.stringify({ success: true, data: rows }), { headers });
       }
 
-      return new Response(JSON.stringify({ success: false, error: 'Dados não encontrados' }), {
+      return new Response(JSON.stringify({ success: false, error: 'Sem dados' }), {
         status: 404,
         headers
       });
@@ -39,56 +48,30 @@ export default async function handler(request) {
     }
   }
 
-  // POST - Salvar dados no Edge Config
+  // POST - Atualizar matrículas
   if (request.method === 'POST') {
     try {
       const body = await request.json();
       const { matriculas } = body;
 
-      if (!matriculas) {
-        return new Response(JSON.stringify({ success: false, error: 'Dados não fornecidos' }), {
+      if (!matriculas || !Array.isArray(matriculas)) {
+        return new Response(JSON.stringify({ success: false, error: 'Dados inválidos' }), {
           status: 400,
           headers
         });
       }
 
-      // Atualiza via API do Vercel
-      const edgeConfigId = process.env.EDGE_CONFIG_ID;
-      const vercelToken = process.env.VERCEL_API_TOKEN;
-
-      if (!edgeConfigId || !vercelToken) {
-        return new Response(JSON.stringify({
-          success: false,
-          error: 'Configuração do Edge Config não encontrada'
-        }), {
-          status: 500,
-          headers
-        });
-      }
-
-      const updateResponse = await fetch(
-        `https://api.vercel.com/v1/edge-config/${edgeConfigId}/items`,
-        {
-          method: 'PATCH',
-          headers: {
-            'Authorization': `Bearer ${vercelToken}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            items: [
-              {
-                operation: 'upsert',
-                key: 'matriculas',
-                value: matriculas,
-              },
-            ],
-          }),
-        }
-      );
-
-      if (!updateResponse.ok) {
-        const errorData = await updateResponse.text();
-        throw new Error(`Erro ao atualizar: ${errorData}`);
+      // Atualiza cada registro
+      for (const item of matriculas) {
+        await sql`
+          UPDATE matriculas
+          SET total_2025 = ${item.total_2025},
+              total_2026 = ${item.total_2026},
+              meta = ${item.meta},
+              gap = ${item.gap},
+              percentual = ${item.percentual}
+          WHERE serie = ${item.serie}
+        `;
       }
 
       return new Response(JSON.stringify({ success: true }), { headers });
