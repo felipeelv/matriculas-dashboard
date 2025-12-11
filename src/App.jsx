@@ -6,7 +6,20 @@ import dadosIniciais from './data.json';
 
 // Chave para localStorage
 const STORAGE_KEY = 'matriculas-dashboard-data';
-const META_KEY = 'matriculas-dashboard-meta';
+
+// Constantes de turmas
+const ALUNOS_POR_TURMA_FUNDAMENTAL = 24;
+const ALUNOS_POR_TURMA_MEDIO = 48;
+const TURMAS_POR_SERIE_FUNDAMENTAL = 2; // 2 turmas por serie no fundamental
+const TURMAS_POR_SERIE_MEDIO = 1; // 1 turma por serie no medio
+
+// Meta calculada automaticamente
+// Fundamental: 9 series x 2 turmas x 24 alunos = 432
+// Medio: 3 series x 1 turma x 48 alunos = 144
+// Total: 576
+const META_FUNDAMENTAL = 9 * TURMAS_POR_SERIE_FUNDAMENTAL * ALUNOS_POR_TURMA_FUNDAMENTAL; // 432
+const META_MEDIO = 3 * TURMAS_POR_SERIE_MEDIO * ALUNOS_POR_TURMA_MEDIO; // 144
+const META_TOTAL = META_FUNDAMENTAL + META_MEDIO; // 576
 
 function App() {
   const [currentPage, setCurrentPage] = useState('dashboard');
@@ -23,39 +36,25 @@ function App() {
     return dadosIniciais;
   });
 
-  const [metaGeral, setMetaGeral] = useState(() => {
-    const saved = localStorage.getItem(META_KEY);
-    return saved ? parseInt(saved) : 600;
-  });
-
   // Salva no localStorage quando dados mudam
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(dados));
   }, [dados]);
 
-  useEffect(() => {
-    localStorage.setItem(META_KEY, metaGeral.toString());
-  }, [metaGeral]);
-
   const total2025 = dados.reduce((acc, curr) => acc + curr.total_2025, 0);
   const total2026 = dados.reduce((acc, curr) => acc + curr.total_2026, 0);
-  const meta = metaGeral;
+  const meta = META_TOTAL; // Meta calculada automaticamente: 576
   const gap = meta - total2026;
   const percentualMeta = ((total2026 / meta) * 100).toFixed(1);
 
-  const handleUpdateDados = (newDados, newMeta) => {
+  const handleUpdateDados = (newDados) => {
     setDados(newDados);
-    if (newMeta) {
-      setMetaGeral(newMeta);
-    }
   };
 
   const handleResetDados = () => {
     if (window.confirm('Tem certeza que deseja resetar todos os dados para o estado inicial?')) {
       setDados(dadosIniciais);
-      setMetaGeral(600);
       localStorage.removeItem(STORAGE_KEY);
-      localStorage.removeItem(META_KEY);
     }
   };
 
