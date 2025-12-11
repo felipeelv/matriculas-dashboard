@@ -1640,3 +1640,316 @@ body {
     width: 100%;
   }
 }
+
+/* ========================================
+   EXPORT BUTTONS
+   ======================================== */
+.reference-2025 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.reference-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.export-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.export-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.export-btn.excel {
+  background: #10b981;
+  color: white;
+}
+
+.export-btn.excel:hover {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
+.export-btn.pdf {
+  background: #ef4444;
+  color: white;
+}
+
+.export-btn.pdf:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+}
+
+/* ========================================
+   PROJEÇÕES
+   ======================================== */
+.projecoes-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.projecoes-header {
+  margin-bottom: 20px;
+}
+
+.projecoes-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.projecoes-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.projecoes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.projecao-card {
+  background: var(--bg-hover);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s ease;
+}
+
+.projecao-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+}
+
+.projecao-card.success {
+  background: var(--color-primary-light);
+  border-color: var(--color-primary);
+}
+
+.projecao-card.warning {
+  background: var(--color-amber-light);
+  border-color: var(--color-amber);
+}
+
+.projecao-icon {
+  font-size: 1.5rem;
+}
+
+.projecao-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.projecao-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.projecao-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.projecao-status {
+  margin-top: 16px;
+}
+
+.projecao-alert {
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+}
+
+.projecao-alert.success {
+  background: var(--color-primary-light);
+  color: #047857;
+  border: 1px solid var(--color-primary);
+}
+
+.projecao-alert.warning {
+  background: var(--color-amber-light);
+  color: #92400e;
+  border: 1px solid var(--color-amber);
+}
+
+/* ========================================
+   MOBILE RESPONSIVENESS IMPROVEMENTS
+   ======================================== */
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  .reference-2025 {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px;
+  }
+
+  .reference-info {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .export-buttons {
+    justify-content: center;
+  }
+
+  .cards-container {
+    grid-template-columns: 1fr;
+  }
+
+  .metric-card {
+    padding: 16px;
+  }
+
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-card {
+    padding: 16px;
+  }
+
+  .projecoes-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .projecao-card {
+    padding: 12px;
+  }
+
+  .projecao-value {
+    font-size: 1.1rem;
+  }
+
+  .projecao-label {
+    font-size: 0.7rem;
+  }
+
+  .table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .data-table {
+    min-width: 600px;
+    font-size: 0.8rem;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 8px 6px;
+  }
+
+  .turma-legend {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .turma-legend-info {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .header-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-actions .header-admin-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .chart-legend-custom {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .projecoes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .projecao-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .export-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .export-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .reference-info {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .chart-stats {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .progress-bar-text {
+    font-size: 0.7rem;
+  }
+}
+
+/* ========================================
+   EVOLUTION CHART LEGEND
+   ======================================== */
+.line-container {
+  height: 300px;
+}
+
+.evolution-legend {
+  justify-content: center;
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.legend-line {
+  width: 24px;
+  height: 0;
+  border-top: 3px dashed;
+  display: inline-block;
+}
