@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 function AdminPanel({ dados, onUpdateDados, onVoltar }) {
   const [editingData, setEditingData] = useState([...dados]);
   const [saved, setSaved] = useState(false);
-  const [editingMeta, setEditingMeta] = useState(600);
 
   // Separa por segmento
   const fundamental = editingData
@@ -32,7 +31,7 @@ function AdminPanel({ dados, onUpdateDados, onVoltar }) {
   };
 
   const handleSave = () => {
-    onUpdateDados(editingData, editingMeta);
+    onUpdateDados(editingData);
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
   };
@@ -96,13 +95,13 @@ function AdminPanel({ dados, onUpdateDados, onVoltar }) {
               </div>
 
               <div className="admin-field">
-                <label>Meta</label>
-                <input
-                  type="number"
-                  value={item.meta}
-                  onChange={(e) => handleChange(item.serie, 'meta', e.target.value)}
-                  min="0"
-                />
+                <label>Meta (por turma)</label>
+                <div className="admin-meta-display">
+                  <span className="meta-value">{item.meta}</span>
+                  <span className="meta-info">
+                    {item.serie.includes('ANO') ? '2 turmas x 24' : '1 turma x 48'}
+                  </span>
+                </div>
               </div>
 
               <div className="admin-progress-info">

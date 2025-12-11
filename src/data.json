@@ -3,17 +3,9 @@
     "serie": "1° ANO",
     "total_2025": 50,
     "total_2026": 19,
-    "meta": 52,
-    "gap": 33,
-    "percentual": 36.5
-  },
-  {
-    "serie": "1° SÉRIE",
-    "total_2025": 49,
-    "total_2026": 30,
-    "meta": 51,
-    "gap": 21,
-    "percentual": 58.8
+    "meta": 48,
+    "gap": 29,
+    "percentual": 39.6
   },
   {
     "serie": "2° ANO",
@@ -24,63 +16,39 @@
     "percentual": 81.2
   },
   {
-    "serie": "2° SÉRIE",
-    "total_2025": 0,
-    "total_2026": 20,
-    "meta": 40,
-    "gap": 20,
-    "percentual": 50.0
-  },
-  {
     "serie": "3° ANO",
     "total_2025": 51,
     "total_2026": 29,
-    "meta": 53,
-    "gap": 24,
-    "percentual": 54.7
-  },
-  {
-    "serie": "3° SÉRIE",
-    "total_2025": 0,
-    "total_2026": 1,
-    "meta": 40,
-    "gap": 39,
-    "percentual": 2.5
+    "meta": 48,
+    "gap": 19,
+    "percentual": 60.4
   },
   {
     "serie": "4° ANO",
     "total_2025": 57,
     "total_2026": 31,
-    "meta": 61,
-    "gap": 30,
-    "percentual": 50.8
+    "meta": 48,
+    "gap": 17,
+    "percentual": 64.6
   },
   {
     "serie": "5° ANO",
     "total_2025": 56,
     "total_2026": 34,
-    "meta": 58,
-    "gap": 24,
-    "percentual": 58.6
+    "meta": 48,
+    "gap": 14,
+    "percentual": 70.8
   },
   {
     "serie": "6° ANO",
-    "total_2025": 25,
+    "total_2025": 51,
     "total_2026": 35,
-    "meta": 26,
-    "gap": -9,
-    "percentual": 134.6
+    "meta": 48,
+    "gap": 13,
+    "percentual": 72.9
   },
   {
-    "serie": "6º ANO",
-    "total_2025": 26,
-    "total_2026": 0,
-    "meta": 27,
-    "gap": 27,
-    "percentual": 0.0
-  },
-  {
-    "serie": "7º ANO",
+    "serie": "7° ANO",
     "total_2025": 46,
     "total_2026": 34,
     "meta": 48,
@@ -88,19 +56,43 @@
     "percentual": 70.8
   },
   {
-    "serie": "8º ANO",
+    "serie": "8° ANO",
     "total_2025": 38,
     "total_2026": 29,
-    "meta": 40,
-    "gap": 11,
-    "percentual": 72.5
+    "meta": 48,
+    "gap": 19,
+    "percentual": 60.4
   },
   {
-    "serie": "9º ANO",
+    "serie": "9° ANO",
     "total_2025": 54,
     "total_2026": 26,
-    "meta": 56,
-    "gap": 30,
-    "percentual": 46.4
+    "meta": 48,
+    "gap": 22,
+    "percentual": 54.2
+  },
+  {
+    "serie": "1° SÉRIE",
+    "total_2025": 49,
+    "total_2026": 30,
+    "meta": 48,
+    "gap": 18,
+    "percentual": 62.5
+  },
+  {
+    "serie": "2° SÉRIE",
+    "total_2025": 0,
+    "total_2026": 20,
+    "meta": 48,
+    "gap": 28,
+    "percentual": 41.7
+  },
+  {
+    "serie": "3° SÉRIE",
+    "total_2025": 0,
+    "total_2026": 1,
+    "meta": 48,
+    "gap": 47,
+    "percentual": 2.1
   }
 ]
