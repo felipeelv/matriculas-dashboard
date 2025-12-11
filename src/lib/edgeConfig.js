@@ -1,12 +1,15 @@
 // URL base da API
 const API_URL = import.meta.env.PROD ? '/api/matriculas' : 'http://localhost:3000/api/matriculas';
 
-// Verifica se Edge Config está disponível
-export const isEdgeConfigured = () => {
-  return import.meta.env.PROD; // Só funciona em produção no Vercel
+// Verifica se está em produção (Vercel)
+export const isCloudConfigured = () => {
+  return import.meta.env.PROD;
 };
 
-// Busca dados do Edge Config
+// Alias para manter compatibilidade
+export const isEdgeConfigured = isCloudConfigured;
+
+// Busca dados do banco
 export const fetchMatriculas = async () => {
   try {
     const response = await fetch(API_URL);
@@ -22,7 +25,7 @@ export const fetchMatriculas = async () => {
   }
 };
 
-// Salva dados no Edge Config
+// Salva dados no banco
 export const saveMatriculas = async (matriculas) => {
   try {
     const response = await fetch(API_URL, {
