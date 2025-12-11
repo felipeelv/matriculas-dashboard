@@ -14,7 +14,7 @@ import {
   LineElement,
   Filler
 } from 'chart.js';
-import { Doughnut, Bar } from 'react-chartjs-2';
+import { Doughnut, Bar, Line } from 'react-chartjs-2';
 
 // Registra os componentes do Chart.js
 ChartJS.register(
@@ -290,6 +290,127 @@ function Charts({ dados, totaisInfantil, totaisFundamental, totaisMedio }) {
     }
   };
 
+  // Gráfico de Evolução Mensal - Projeção
+  const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+  const mesAtual = new Date().getMonth(); // 0-11
+
+  // Simula dados históricos (crescimento linear até agora)
+  const dadosMensais = [];
+  const metaMensal = [];
+  const incrementoMensal = totalMeta / 12;
+
+  for (let i = 0; i <= 11; i++) {
+    metaMensal.push(Math.round(incrementoMensal * (i + 1)));
+
+    if (i < mesAtual) {
+      // Meses passados: simula crescimento proporcional
+      dadosMensais.push(Math.round((totalAtual / (mesAtual + 1)) * (i + 1)));
+    } else if (i === mesAtual) {
+      // Mês atual: valor real
+      dadosMensais.push(totalAtual);
+    } else {
+      // Meses futuros: projeção baseada no ritmo atual
+      const ritmoMensal = totalAtual / (mesAtual + 1);
+      dadosMensais.push(Math.round(totalAtual + ritmoMensal * (i - mesAtual)));
+    }
+  }
+
+  const evolutionData = {
+    labels: meses,
+    datasets: [
+      {
+        label: 'Matrículas',
+        data: dadosMensais,
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+        borderWidth: 3,
+        pointBackgroundColor: dadosMensais.map((_, i) => i <= mesAtual ? '#3b82f6' : '#94a3b8'),
+        pointBorderColor: '#fff',
+        pointBorderWidth: 2,
+        pointRadius: dadosMensais.map((_, i) => i === mesAtual ? 8 : 5),
+        pointHoverRadius: 8,
+        tension: 0.3,
+        fill: true,
+      },
+      {
+        label: 'Meta Ideal',
+        data: metaMensal,
+        borderColor: '#10b981',
+        backgroundColor: 'transparent',
+        borderWidth: 2,
+        borderDash: [8, 4],
+        pointBackgroundColor: '#10b981',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 2,
+        pointRadius: 4,
+        tension: 0.1,
+        fill: false,
+      }
+    ],
+  };
+
+  const evolutionOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top',
+        labels: {
+          padding: 20,
+          usePointStyle: true,
+          font: {
+            family: 'Inter',
+            size: 12
+          }
+        }
+      },
+      tooltip: {
+        callbacks: {
+          afterLabel: function(context) {
+            if (context.datasetIndex === 0) {
+              const mesIndex = context.dataIndex;
+              if (mesIndex < mesAtual) {
+                return '(estimado)';
+              } else if (mesIndex === mesAtual) {
+                return '← Mês atual';
+              } else {
+                return '(projeção)';
+              }
+            }
+            return '';
+          }
+        }
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: totalMeta + 50,
+        grid: {
+          color: 'rgba(0, 0, 0, 0.05)'
+        },
+        ticks: {
+          font: {
+            family: 'Inter',
+            size: 11
+          }
+        }
+      },
+      x: {
+        grid: {
+          display: false
+        },
+        ticks: {
+          font: {
+            family: 'Inter',
+            size: 11,
+            weight: (context) => context.index === mesAtual ? '700' : '400'
+          }
+        }
+      }
+    }
+  };
+
   return (
     <div className="charts-section">
       <div className="charts-grid">
@@ -359,6 +480,31 @@ function Charts({ dados, totaisInfantil, totaisFundamental, totaisMedio }) {
           <div className="legend-item">
             <span className="legend-color" style={{ background: '#ef4444' }}></span>
             <span>Abaixo de 50%</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Gráfico de Evolução Mensal */}
+      <div className="chart-card full-width">
+        <div className="chart-header">
+          <h3 className="chart-title">Evolução Mensal</h3>
+          <p className="chart-subtitle">Acompanhamento e projeção ao longo do ano</p>
+        </div>
+        <div className="chart-container line-container">
+          <Line data={evolutionData} options={evolutionOptions} />
+        </div>
+        <div className="chart-legend-custom evolution-legend">
+          <div className="legend-item">
+            <span className="legend-dot" style={{ background: '#3b82f6' }}></span>
+            <span>Matrículas realizadas</span>
+          </div>
+          <div className="legend-item">
+            <span className="legend-dot" style={{ background: '#94a3b8' }}></span>
+            <span>Projeção futura</span>
+          </div>
+          <div className="legend-item">
+            <span className="legend-line" style={{ borderColor: '#10b981' }}></span>
+            <span>Meta ideal mensal</span>
           </div>
         </div>
       </div>

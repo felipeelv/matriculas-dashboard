@@ -1,5 +1,7 @@
 import React from 'react';
 import Charts from './Charts';
+import Projecoes from './Projecoes';
+import { exportToExcel, exportToPDF } from '../lib/exportUtils';
 
 function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
   // Calcula a variacao percentual
@@ -240,13 +242,29 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
 
   return (
     <div className="dashboard">
-      {/* Referencia 2025 - Simples */}
+      {/* Referencia 2025 e Botões de Exportação */}
       <div className="reference-2025">
-        <span className="reference-label">Referência 2025:</span>
-        <span className="reference-value">{total2025} matrículas</span>
-        <span className={`reference-trend ${variacao >= 0 ? 'up' : 'down'}`}>
-          {variacao >= 0 ? '↑' : '↓'} {Math.abs(variacao)}% vs 2025
-        </span>
+        <div className="reference-info">
+          <span className="reference-label">Referência 2025:</span>
+          <span className="reference-value">{total2025} matrículas</span>
+          <span className={`reference-trend ${variacao >= 0 ? 'up' : 'down'}`}>
+            {variacao >= 0 ? '↑' : '↓'} {Math.abs(variacao)}% vs 2025
+          </span>
+        </div>
+        <div className="export-buttons">
+          <button
+            className="export-btn excel"
+            onClick={() => exportToExcel(dados, { total2025, total2026, meta, gap, percentual: percentualMeta })}
+          >
+            📊 Excel
+          </button>
+          <button
+            className="export-btn pdf"
+            onClick={() => exportToPDF(dados, { total2025, total2026, meta, gap, percentual: percentualMeta })}
+          >
+            📄 PDF
+          </button>
+        </div>
       </div>
 
       {/* Cards Principais - Destaque 2026 */}
@@ -311,6 +329,12 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
         totaisInfantil={totaisInfantil}
         totaisFundamental={totaisFundamental}
         totaisMedio={totaisMedio}
+      />
+
+      {/* Projeções e Estimativas */}
+      <Projecoes
+        dados={dados}
+        totais={{ total2025, total2026, meta, gap, percentual: percentualMeta }}
       />
 
       {/* Legenda de Turmas */}
