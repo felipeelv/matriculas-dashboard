@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function AdminPanel({ dados, onUpdateDados, onVoltar }) {
+function AdminPanel({ dados, onUpdateDados, onVoltar, onReset }) {
   const [editingData, setEditingData] = useState([...dados]);
   const [saved, setSaved] = useState(false);
 
@@ -156,6 +156,12 @@ function AdminPanel({ dados, onUpdateDados, onVoltar }) {
             onClick={handleSave}
           >
             {saved ? '✓ Salvo!' : 'Salvar Alteracoes'}
+          </button>
+          <button
+            className="admin-btn-reset"
+            onClick={onReset}
+          >
+            Resetar Dados
           </button>
         </div>
       </div>
