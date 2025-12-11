@@ -1,4 +1,5 @@
 import React from 'react';
+import Charts from './Charts';
 
 function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
   // Calcula a variacao percentual
@@ -303,6 +304,14 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
           <span>Meta: {meta} matrículas</span>
         </div>
       </div>
+
+      {/* Gráficos Interativos */}
+      <Charts
+        dados={dados}
+        totaisInfantil={totaisInfantil}
+        totaisFundamental={totaisFundamental}
+        totaisMedio={totaisMedio}
+      />
 
       {/* Legenda de Turmas */}
       <div className="turma-legend">
