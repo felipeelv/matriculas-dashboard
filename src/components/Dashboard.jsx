@@ -127,14 +127,11 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
           </div>
         )}
 
-        {/* Turma atual em preenchimento - mostra meta para completar */}
+        {/* Turma atual em preenchimento */}
         {turmaInfo.alunosTurmaAtual > 0 && (
           <div className="turma-atual">
             <span className="turma-badge current">
               {turmaInfo.turmaAtual}: {turmaInfo.alunosTurmaAtual}
-            </span>
-            <span className="turma-meta">
-              Meta: +{turmaInfo.faltamParaCompletar}
             </span>
           </div>
         )}
@@ -143,7 +140,6 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
         {item.total_2026 === 0 && (
           <div className="turma-atual">
             <span className="turma-badge empty">A: 0</span>
-            <span className="turma-meta">Meta: +{alunosPorTurma}</span>
           </div>
         )}
       </div>
@@ -154,6 +150,13 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
   const renderRow = (item, index) => {
     const statusClass = getStatusClass(item.percentual);
     const statusLabel = getStatusLabel(item.percentual);
+
+    // Calcula meta da turma atual (o que falta para completar)
+    const alunosPorTurma = getAlunosPorTurma(item.serie);
+    const turmaInfo = calcularTurmas(item.total_2026, alunosPorTurma);
+    const metaTurmaAtual = turmaInfo.faltamParaCompletar > 0
+      ? turmaInfo.faltamParaCompletar
+      : (item.total_2026 === 0 ? alunosPorTurma : 0);
 
     return (
       <tr key={index} className={item.gap <= 0 ? 'row-success' : ''}>
@@ -168,7 +171,7 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
         <td className="turma-cell">
           {renderTurmaInfo(item)}
         </td>
-        <td className="value-cell">{item.meta}</td>
+        <td className="value-cell meta-turma">{metaTurmaAtual > 0 ? `+${metaTurmaAtual}` : '✓'}</td>
         <td className={`value-cell ${item.gap <= 0 ? 'value-positive' : 'value-negative'}`}>
           {item.gap <= 0 ? item.gap : `+${item.gap}`}
         </td>
@@ -199,6 +202,9 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
   const renderSubtotal = (totais, label, alunosPorTurma) => {
     const statusClass = getStatusClass(parseFloat(totais.percentual));
     const turmaInfo = calcularTurmas(totais.total2026, alunosPorTurma);
+    const faltamTurmaAtual = turmaInfo.faltamParaCompletar > 0
+      ? turmaInfo.faltamParaCompletar
+      : (totais.total2026 === 0 ? alunosPorTurma : 0);
 
     return (
       <tr className="subtotal-row">
@@ -209,7 +215,7 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
             {turmaInfo.turmasCompletas} turma{turmaInfo.turmasCompletas !== 1 ? 's' : ''} completa{turmaInfo.turmasCompletas !== 1 ? 's' : ''}
           </span>
         </td>
-        <td className="value-cell"><strong>{totais.meta}</strong></td>
+        <td className="value-cell meta-turma"><strong>{faltamTurmaAtual > 0 ? `+${faltamTurmaAtual}` : '✓'}</strong></td>
         <td className={`value-cell ${totais.gap <= 0 ? 'value-positive' : 'value-negative'}`}>
           <strong>{totais.gap <= 0 ? totais.gap : `+${totais.gap}`}</strong>
         </td>
@@ -330,8 +336,8 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
                 <th>Série</th>
                 <th className="highlight-header">2026</th>
                 <th>Turmas</th>
-                <th>Meta</th>
-                <th>Gap</th>
+                <th>Falta</th>
+                <th>Gap Total</th>
                 <th>Progresso</th>
                 <th>Status</th>
               </tr>
