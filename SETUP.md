@@ -1,45 +1,57 @@
-# Configurar Vercel Edge Config para Persistência de Dados
+# Configurar Neon Database para Persistência de Dados
 
-## Você já tem o Edge Config!
-Seus dados do Edge Config:
-- **ID**: `ecfg_glzzkqkpq02lpcrregbioiv2d2ir`
-- **Connection String**: `https://edge-config.vercel.com/ecfg_glzzkqkpq02lpcrregbioiv2d2ir?token=1bea55b3-7ada-4f60-a21f-279db4f6d46d`
+## Passo 1: Criar conta no Neon
+1. Acesse [neon.tech](https://neon.tech)
+2. Crie uma conta gratuita (pode usar GitHub)
+3. Crie um novo projeto
 
-## Passo 1: Criar um Token da API Vercel
-1. Acesse [vercel.com/account/tokens](https://vercel.com/account/tokens)
-2. Clique em "Create Token"
-3. Dê um nome (ex: "matriculas-dashboard")
-4. Copie o token gerado
+## Passo 2: Criar a tabela
+No painel do Neon, vá em **SQL Editor** e execute:
 
-## Passo 2: Configurar Variáveis de Ambiente no Vercel
-No painel do seu projeto no Vercel, vá em **Settings > Environment Variables** e adicione:
+```sql
+CREATE TABLE matriculas (
+  id SERIAL PRIMARY KEY,
+  serie VARCHAR(50) NOT NULL UNIQUE,
+  total_2025 INTEGER DEFAULT 0,
+  total_2026 INTEGER DEFAULT 0,
+  meta INTEGER DEFAULT 0,
+  gap INTEGER DEFAULT 0,
+  percentual DECIMAL(5,2) DEFAULT 0
+);
 
-| Nome | Valor |
-|------|-------|
-| `EDGE_CONFIG` | `https://edge-config.vercel.com/ecfg_glzzkqkpq02lpcrregbioiv2d2ir?token=1bea55b3-7ada-4f60-a21f-279db4f6d46d` |
-| `EDGE_CONFIG_ID` | `ecfg_glzzkqkpq02lpcrregbioiv2d2ir` |
-| `VERCEL_API_TOKEN` | `seu_token_criado_no_passo_1` |
-
-## Passo 3: Inicializar os Dados (apenas primeira vez)
-Após configurar, acesse o Edge Config no painel Vercel e adicione um item:
-- **Key**: `matriculas`
-- **Value**: (cole o conteúdo do arquivo `src/data.json`)
-
-Ou deixe o app criar automaticamente na primeira vez que você salvar dados.
-
-## Passo 4: Fazer Deploy
-Faça um novo deploy para aplicar as variáveis:
-```bash
-git push
+-- Inserir dados iniciais
+INSERT INTO matriculas (serie, total_2025, total_2026, meta, gap, percentual) VALUES
+('INFANTIL 4', 0, 8, 40, 32, 20.0),
+('INFANTIL 5', 0, 17, 40, 23, 42.5),
+('1° ANO', 50, 19, 48, 29, 39.6),
+('2° ANO', 46, 39, 48, 9, 81.2),
+('3° ANO', 51, 29, 48, 19, 60.4),
+('4° ANO', 57, 31, 48, 17, 64.6),
+('5° ANO', 56, 34, 48, 14, 70.8),
+('6° ANO', 51, 35, 48, 13, 72.9),
+('7° ANO', 46, 34, 48, 14, 70.8),
+('8° ANO', 38, 29, 48, 19, 60.4),
+('9° ANO', 54, 26, 48, 22, 54.2),
+('1° SÉRIE', 49, 30, 48, 18, 62.5),
+('2° SÉRIE', 0, 20, 48, 28, 41.7),
+('3° SÉRIE', 0, 1, 48, 47, 2.1);
 ```
 
-## Pronto!
-Após configurar, o dashboard irá:
-- Carregar dados do Edge Config automaticamente
-- Salvar alterações na nuvem
-- Mostrar "☁️ Sincronizado" quando conectado
-- Funcionar offline com localStorage como fallback
+## Passo 3: Obter a Connection String
+1. No painel do Neon, vá em **Dashboard**
+2. Copie a **Connection String** (começa com `postgresql://...`)
 
-## Troubleshooting
-- Se aparecer "💾 Local", verifique se as variáveis de ambiente estão configuradas
-- O Edge Config só funciona em produção (no Vercel), localmente usa localStorage
+## Passo 4: Configurar no Vercel
+1. Vá no seu projeto no Vercel → **Settings** → **Environment Variables**
+2. Adicione:
+   - **Name**: `DATABASE_URL`
+   - **Value**: `sua_connection_string_do_neon`
+
+## Passo 5: Fazer Redeploy
+Faça um novo deploy para aplicar as mudanças.
+
+## Pronto!
+O dashboard vai:
+- Carregar dados do Neon automaticamente
+- Salvar alterações no banco
+- Mostrar "☁️ Sincronizado" quando conectado
