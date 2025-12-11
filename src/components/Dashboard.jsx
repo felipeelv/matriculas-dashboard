@@ -336,7 +336,7 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
                 <th>Série</th>
                 <th className="highlight-header">2026</th>
                 <th>Turmas</th>
-                <th>Falta</th>
+                <th>Falta Turma</th>
                 <th>Gap Total</th>
                 <th>Progresso</th>
                 <th>Status</th>
