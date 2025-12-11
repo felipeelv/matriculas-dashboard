@@ -3,7 +3,7 @@ import Dashboard from './components/Dashboard';
 import AdminPanel from './components/AdminPanel';
 import './styles/App.css';
 import dadosIniciais from './data.json';
-import { supabase, isSupabaseConfigured } from './lib/supabase';
+import { fetchMatriculas, saveMatriculas, isEdgeConfigured } from './lib/edgeConfig';
 
 // Chave para localStorage
 const STORAGE_KEY = 'matriculas-dashboard-data';
@@ -36,32 +36,27 @@ function App() {
   // Carrega dados ao iniciar
   useEffect(() => {
     const loadData = async () => {
-      // Verifica se Supabase está configurado
-      if (isSupabaseConfigured()) {
+      // Em produção (Vercel), tenta carregar do Edge Config
+      if (isEdgeConfigured()) {
         try {
-          const { data, error } = await supabase
-            .from('matriculas')
-            .select('*')
-            .order('id');
+          const { data, error } = await fetchMatriculas();
 
-          if (error) throw error;
-
-          if (data && data.length > 0) {
+          if (data && !error) {
             setDados(data);
             setUseCloud(true);
           } else {
-            // Primeira vez: insere dados iniciais no Supabase
-            const { error: insertError } = await supabase
-              .from('matriculas')
-              .insert(dadosIniciais.map((item, index) => ({ ...item, id: index + 1 })));
-
-            if (!insertError) {
-              setUseCloud(true);
+            // Fallback para localStorage
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+              try {
+                setDados(JSON.parse(saved));
+              } catch {
+                setDados(dadosIniciais);
+              }
             }
           }
         } catch (err) {
-          console.log('Supabase não disponível, usando localStorage:', err.message);
-          // Fallback para localStorage
+          console.log('Edge Config não disponível, usando localStorage:', err.message);
           const saved = localStorage.getItem(STORAGE_KEY);
           if (saved) {
             try {
@@ -72,7 +67,7 @@ function App() {
           }
         }
       } else {
-        // Sem Supabase, usa localStorage
+        // Desenvolvimento local: usa localStorage
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) {
           try {
@@ -96,25 +91,13 @@ function App() {
       // Sempre salva no localStorage como backup
       localStorage.setItem(STORAGE_KEY, JSON.stringify(dados));
 
-      // Se Supabase está configurado, salva lá também
-      if (useCloud && isSupabaseConfigured()) {
+      // Em produção, salva no Edge Config
+      if (useCloud && isEdgeConfigured()) {
         setSaving(true);
         try {
-          // Atualiza cada registro
-          for (const item of dados) {
-            await supabase
-              .from('matriculas')
-              .update({
-                total_2025: item.total_2025,
-                total_2026: item.total_2026,
-                meta: item.meta,
-                gap: item.gap,
-                percentual: item.percentual
-              })
-              .eq('serie', item.serie);
-          }
+          await saveMatriculas(dados);
         } catch (err) {
-          console.error('Erro ao salvar no Supabase:', err);
+          console.error('Erro ao salvar no Edge Config:', err);
         }
         setSaving(false);
       }
@@ -138,23 +121,12 @@ function App() {
       setDados(dadosIniciais);
       localStorage.removeItem(STORAGE_KEY);
 
-      // Reset no Supabase também
-      if (useCloud && isSupabaseConfigured()) {
+      // Reset no Edge Config também
+      if (useCloud && isEdgeConfigured()) {
         try {
-          for (const item of dadosIniciais) {
-            await supabase
-              .from('matriculas')
-              .update({
-                total_2025: item.total_2025,
-                total_2026: item.total_2026,
-                meta: item.meta,
-                gap: item.gap,
-                percentual: item.percentual
-              })
-              .eq('serie', item.serie);
-          }
+          await saveMatriculas(dadosIniciais);
         } catch (err) {
-          console.error('Erro ao resetar no Supabase:', err);
+          console.error('Erro ao resetar no Edge Config:', err);
         }
       }
     }
