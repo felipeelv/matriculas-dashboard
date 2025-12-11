@@ -5,6 +5,7 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
   const variacao = total2025 > 0 ? (((total2026 - total2025) / total2025) * 100).toFixed(1) : 0;
 
   // Constantes de alunos por turma
+  const ALUNOS_POR_TURMA_INFANTIL = 20;
   const ALUNOS_POR_TURMA_FUNDAMENTAL = 24;
   const ALUNOS_POR_TURMA_MEDIO = 48;
 
@@ -26,10 +27,27 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
     };
   };
 
-  // Verifica se e ensino medio
+  // Verifica o tipo de segmento
+  const isInfantil = (serie) => serie.includes('INFANTIL');
   const isMedio = (serie) => serie.includes('SÉRIE');
+  const isFundamental = (serie) => serie.includes('ANO');
+
+  // Retorna alunos por turma baseado no segmento
+  const getAlunosPorTurma = (serie) => {
+    if (isInfantil(serie)) return ALUNOS_POR_TURMA_INFANTIL;
+    if (isMedio(serie)) return ALUNOS_POR_TURMA_MEDIO;
+    return ALUNOS_POR_TURMA_FUNDAMENTAL;
+  };
 
   // Separa os dados por segmento
+  const infantil = dados
+    .filter(item => item.serie.includes('INFANTIL'))
+    .sort((a, b) => {
+      const numA = parseInt(a.serie.match(/\d+/)[0]);
+      const numB = parseInt(b.serie.match(/\d+/)[0]);
+      return numA - numB;
+    });
+
   const fundamental = dados
     .filter(item => item.serie.includes('ANO'))
     .sort((a, b) => {
@@ -54,9 +72,13 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
     gap: segmento.reduce((acc, curr) => acc + curr.gap, 0),
   });
 
+  const totaisInfantil = calcularTotais(infantil);
   const totaisFundamental = calcularTotais(fundamental);
   const totaisMedio = calcularTotais(medio);
 
+  totaisInfantil.percentual = totaisInfantil.meta > 0
+    ? ((totaisInfantil.total2026 / totaisInfantil.meta) * 100).toFixed(1)
+    : 0;
   totaisFundamental.percentual = totaisFundamental.meta > 0
     ? ((totaisFundamental.total2026 / totaisFundamental.meta) * 100).toFixed(1)
     : 0;
@@ -83,7 +105,7 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
 
   // Renderiza informacao de turmas
   const renderTurmaInfo = (item) => {
-    const alunosPorTurma = isMedio(item.serie) ? ALUNOS_POR_TURMA_MEDIO : ALUNOS_POR_TURMA_FUNDAMENTAL;
+    const alunosPorTurma = getAlunosPorTurma(item.serie);
     const turmaInfo = calcularTurmas(item.total_2026, alunosPorTurma);
 
     // Gera as turmas completas
@@ -298,8 +320,9 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
           <span>Turma em preenchimento</span>
         </div>
         <div className="turma-legend-info">
+          <span>💒 Infantil: 20 alunos/turma</span>
           <span>📘 Fundamental: 24 alunos/turma</span>
-          <span>📗 Medio: 48 alunos/turma</span>
+          <span>📗 Médio: 48 alunos/turma</span>
         </div>
       </div>
 
@@ -307,7 +330,7 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
       <div className="table-section">
         <div className="table-header">
           <div>
-            <h3 className="table-title">Detalhamento por Serie</h3>
+            <h3 className="table-title">Detalhamento por Série</h3>
             <p className="table-subtitle">Organizado por segmento com status de turmas</p>
           </div>
         </div>
@@ -325,6 +348,23 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
               </tr>
             </thead>
             <tbody>
+              {/* Educação Infantil */}
+              {infantil.length > 0 && (
+                <>
+                  <tr className="segment-header">
+                    <td colSpan="7">
+                      <div className="segment-title">
+                        <span className="segment-icon">💒</span>
+                        Educação Infantil
+                        <span className="segment-info">(20 alunos por turma • Meta: 2 turmas)</span>
+                      </div>
+                    </td>
+                  </tr>
+                  {infantil.map((item, index) => renderRow(item, `inf-${index}`))}
+                  {renderSubtotal(totaisInfantil, 'Subtotal Infantil', ALUNOS_POR_TURMA_INFANTIL)}
+                </>
+              )}
+
               {/* Ensino Fundamental */}
               <tr className="segment-header">
                 <td colSpan="7">

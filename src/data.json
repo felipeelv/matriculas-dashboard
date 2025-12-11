@@ -1,5 +1,21 @@
 [
   {
+    "serie": "INFANTIL 4",
+    "total_2025": 0,
+    "total_2026": 8,
+    "meta": 40,
+    "gap": 32,
+    "percentual": 20.0
+  },
+  {
+    "serie": "INFANTIL 5",
+    "total_2025": 0,
+    "total_2026": 17,
+    "meta": 40,
+    "gap": 23,
+    "percentual": 42.5
+  },
+  {
     "serie": "1° ANO",
     "total_2025": 50,
     "total_2026": 19,

@@ -5,6 +5,10 @@ function AdminPanel({ dados, onUpdateDados, onVoltar }) {
   const [saved, setSaved] = useState(false);
 
   // Separa por segmento
+  const infantil = editingData
+    .filter(item => item.serie.includes('INFANTIL'))
+    .sort((a, b) => parseInt(a.serie.match(/\d+/)[0]) - parseInt(b.serie.match(/\d+/)[0]));
+
   const fundamental = editingData
     .filter(item => item.serie.includes('ANO'))
     .sort((a, b) => parseInt(a.serie.match(/\d+/)[0]) - parseInt(b.serie.match(/\d+/)[0]));
@@ -12,6 +16,13 @@ function AdminPanel({ dados, onUpdateDados, onVoltar }) {
   const medio = editingData
     .filter(item => item.serie.includes('SÉRIE'))
     .sort((a, b) => parseInt(a.serie.match(/\d+/)[0]) - parseInt(b.serie.match(/\d+/)[0]));
+
+  // Retorna info de meta baseado no segmento
+  const getMetaInfo = (serie) => {
+    if (serie.includes('INFANTIL')) return '2 turmas x 20';
+    if (serie.includes('SÉRIE')) return '1 turma x 48';
+    return '2 turmas x 24';
+  };
 
   const handleChange = (serie, field, value) => {
     const newData = editingData.map(item => {
@@ -99,7 +110,7 @@ function AdminPanel({ dados, onUpdateDados, onVoltar }) {
                 <div className="admin-meta-display">
                   <span className="meta-value">{item.meta}</span>
                   <span className="meta-info">
-                    {item.serie.includes('ANO') ? '2 turmas x 24' : '1 turma x 48'}
+                    {getMetaInfo(item.serie)}
                   </span>
                 </div>
               </div>
@@ -150,8 +161,9 @@ function AdminPanel({ dados, onUpdateDados, onVoltar }) {
       </div>
 
       <div className="admin-content">
+        {infantil.length > 0 && renderSegment(infantil, 'Educação Infantil', '💒')}
         {renderSegment(fundamental, 'Ensino Fundamental', '📘')}
-        {renderSegment(medio, 'Ensino Medio', '📗')}
+        {renderSegment(medio, 'Ensino Médio', '📗')}
       </div>
 
       <div className="admin-quick-actions">

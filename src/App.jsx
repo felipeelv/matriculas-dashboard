@@ -8,18 +8,22 @@ import dadosIniciais from './data.json';
 const STORAGE_KEY = 'matriculas-dashboard-data';
 
 // Constantes de turmas
+const ALUNOS_POR_TURMA_INFANTIL = 20;
 const ALUNOS_POR_TURMA_FUNDAMENTAL = 24;
 const ALUNOS_POR_TURMA_MEDIO = 48;
+const TURMAS_POR_SERIE_INFANTIL = 2; // 2 turmas por serie no infantil
 const TURMAS_POR_SERIE_FUNDAMENTAL = 2; // 2 turmas por serie no fundamental
 const TURMAS_POR_SERIE_MEDIO = 1; // 1 turma por serie no medio
 
 // Meta calculada automaticamente
+// Infantil: 2 series x 2 turmas x 20 alunos = 80
 // Fundamental: 9 series x 2 turmas x 24 alunos = 432
 // Medio: 3 series x 1 turma x 48 alunos = 144
-// Total: 576
+// Total: 656
+const META_INFANTIL = 2 * TURMAS_POR_SERIE_INFANTIL * ALUNOS_POR_TURMA_INFANTIL; // 80
 const META_FUNDAMENTAL = 9 * TURMAS_POR_SERIE_FUNDAMENTAL * ALUNOS_POR_TURMA_FUNDAMENTAL; // 432
 const META_MEDIO = 3 * TURMAS_POR_SERIE_MEDIO * ALUNOS_POR_TURMA_MEDIO; // 144
-const META_TOTAL = META_FUNDAMENTAL + META_MEDIO; // 576
+const META_TOTAL = META_INFANTIL + META_FUNDAMENTAL + META_MEDIO; // 656
 
 function App() {
   const [currentPage, setCurrentPage] = useState('dashboard');
