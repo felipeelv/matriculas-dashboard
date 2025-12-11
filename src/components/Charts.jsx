@@ -100,6 +100,7 @@ function Charts({ dados, totaisInfantil, totaisFundamental, totaisMedio }) {
     labels: seriesData.map(s => s.serie),
     datasets: [
       {
+        type: 'bar',
         label: 'Matrículas 2026',
         data: seriesData.map(s => s.atual),
         backgroundColor: seriesData.map(s =>
@@ -114,15 +115,24 @@ function Charts({ dados, totaisInfantil, totaisFundamental, totaisMedio }) {
         ),
         borderWidth: 2,
         borderRadius: 6,
+        order: 2,
       },
       {
+        type: 'line',
         label: 'Meta',
         data: seriesData.map(s => s.meta),
-        backgroundColor: 'rgba(156, 163, 175, 0.3)',
-        borderColor: '#9ca3af',
-        borderWidth: 2,
-        borderRadius: 6,
-        borderDash: [5, 5],
+        borderColor: '#6366f1',
+        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+        borderWidth: 3,
+        borderDash: [8, 4],
+        pointBackgroundColor: '#6366f1',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 2,
+        pointRadius: 5,
+        pointHoverRadius: 7,
+        tension: 0.1,
+        fill: false,
+        order: 1,
       }
     ],
   };
