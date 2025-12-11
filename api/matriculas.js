@@ -53,17 +53,15 @@ export default async function handler(request) {
       }
 
       // Atualiza via API do Vercel
-      const edgeConfigId = process.env.EDGE_CONFIG_ID;
+      const edgeConfigId = process.env.EDGE_CONFIG_ID || 'ecfg_glzzkqkpq02lpcrregbioiv2d2ir';
       const vercelToken = process.env.VERCEL_API_TOKEN;
 
-      if (!edgeConfigId || !vercelToken) {
+      if (!vercelToken) {
+        // Sem token, retorna sucesso mas avisa que não salvou na nuvem
         return new Response(JSON.stringify({
-          success: false,
-          error: 'Configuração do Edge Config não encontrada'
-        }), {
-          status: 500,
-          headers
-        });
+          success: true,
+          warning: 'VERCEL_API_TOKEN não configurado - dados salvos apenas localmente'
+        }), { headers });
       }
 
       const updateResponse = await fetch(
