@@ -172,9 +172,6 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
           {renderTurmaInfo(item)}
         </td>
         <td className="value-cell meta-turma">{metaTurmaAtual > 0 ? `+${metaTurmaAtual}` : '✓'}</td>
-        <td className={`value-cell ${item.gap <= 0 ? 'value-positive' : 'value-negative'}`}>
-          {item.gap <= 0 ? item.gap : `+${item.gap}`}
-        </td>
         <td>
           <div className="mini-progress">
             <div className="mini-progress-bar">
@@ -216,9 +213,6 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
           </span>
         </td>
         <td className="value-cell meta-turma"><strong>{faltamTurmaAtual > 0 ? `+${faltamTurmaAtual}` : '✓'}</strong></td>
-        <td className={`value-cell ${totais.gap <= 0 ? 'value-positive' : 'value-negative'}`}>
-          <strong>{totais.gap <= 0 ? totais.gap : `+${totais.gap}`}</strong>
-        </td>
         <td>
           <div className="mini-progress">
             <div className="mini-progress-bar">
@@ -337,7 +331,6 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
                 <th className="highlight-header">2026</th>
                 <th>Turmas</th>
                 <th>Falta</th>
-                <th>Gap Total</th>
                 <th>Progresso</th>
                 <th>Status</th>
               </tr>
@@ -347,7 +340,7 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
               {infantil.length > 0 && (
                 <>
                   <tr className="segment-header">
-                    <td colSpan="7">
+                    <td colSpan="6">
                       <div className="segment-title">
                         <span className="segment-icon">💒</span>
                         Educação Infantil
@@ -362,7 +355,7 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
 
               {/* Ensino Fundamental */}
               <tr className="segment-header">
-                <td colSpan="7">
+                <td colSpan="6">
                   <div className="segment-title">
                     <span className="segment-icon">📘</span>
                     Ensino Fundamental
@@ -375,7 +368,7 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
 
               {/* Ensino Médio */}
               <tr className="segment-header">
-                <td colSpan="7">
+                <td colSpan="6">
                   <div className="segment-title">
                     <span className="segment-icon">📗</span>
                     Ensino Médio
