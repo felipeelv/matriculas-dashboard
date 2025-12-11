@@ -3,6 +3,7 @@ import Dashboard from './components/Dashboard';
 import AdminPanel from './components/AdminPanel';
 import './styles/App.css';
 import dadosIniciais from './data.json';
+import { fetchMatriculas, saveMatriculas, isEdgeConfigured } from './lib/edgeConfig';
 
 // Chave para localStorage
 const STORAGE_KEY = 'matriculas-dashboard-data';
@@ -27,23 +28,83 @@ const META_TOTAL = META_INFANTIL + META_FUNDAMENTAL + META_MEDIO; // 656
 
 function App() {
   const [currentPage, setCurrentPage] = useState('dashboard');
-  const [dados, setDados] = useState(() => {
-    // Tenta carregar do localStorage
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch {
-        return dadosIniciais;
-      }
-    }
-    return dadosIniciais;
-  });
+  const [dados, setDados] = useState(dadosIniciais);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [useCloud, setUseCloud] = useState(false);
 
-  // Salva no localStorage quando dados mudam
+  // Carrega dados ao iniciar
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(dados));
-  }, [dados]);
+    const loadData = async () => {
+      // Em produção (Vercel), tenta carregar do Edge Config
+      if (isEdgeConfigured()) {
+        try {
+          const { data, error } = await fetchMatriculas();
+
+          if (data && !error) {
+            setDados(data);
+            setUseCloud(true);
+          } else {
+            // Fallback para localStorage
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+              try {
+                setDados(JSON.parse(saved));
+              } catch {
+                setDados(dadosIniciais);
+              }
+            }
+          }
+        } catch (err) {
+          console.log('Edge Config não disponível, usando localStorage:', err.message);
+          const saved = localStorage.getItem(STORAGE_KEY);
+          if (saved) {
+            try {
+              setDados(JSON.parse(saved));
+            } catch {
+              setDados(dadosIniciais);
+            }
+          }
+        }
+      } else {
+        // Desenvolvimento local: usa localStorage
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          try {
+            setDados(JSON.parse(saved));
+          } catch {
+            setDados(dadosIniciais);
+          }
+        }
+      }
+      setLoading(false);
+    };
+
+    loadData();
+  }, []);
+
+  // Salva dados quando mudam
+  useEffect(() => {
+    if (loading) return;
+
+    const saveData = async () => {
+      // Sempre salva no localStorage como backup
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(dados));
+
+      // Em produção, salva no Edge Config
+      if (useCloud && isEdgeConfigured()) {
+        setSaving(true);
+        try {
+          await saveMatriculas(dados);
+        } catch (err) {
+          console.error('Erro ao salvar no Edge Config:', err);
+        }
+        setSaving(false);
+      }
+    };
+
+    saveData();
+  }, [dados, loading, useCloud]);
 
   const total2025 = dados.reduce((acc, curr) => acc + curr.total_2025, 0);
   const total2026 = dados.reduce((acc, curr) => acc + curr.total_2026, 0);
@@ -55,12 +116,33 @@ function App() {
     setDados(newDados);
   };
 
-  const handleResetDados = () => {
+  const handleResetDados = async () => {
     if (window.confirm('Tem certeza que deseja resetar todos os dados para o estado inicial?')) {
       setDados(dadosIniciais);
       localStorage.removeItem(STORAGE_KEY);
+
+      // Reset no Edge Config também
+      if (useCloud && isEdgeConfigured()) {
+        try {
+          await saveMatriculas(dadosIniciais);
+        } catch (err) {
+          console.error('Erro ao resetar no Edge Config:', err);
+        }
+      }
     }
   };
+
+  // Mostra loading enquanto carrega
+  if (loading) {
+    return (
+      <div className="container">
+        <div className="loading-screen">
+          <div className="loading-spinner"></div>
+          <p>Carregando dados...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
@@ -69,12 +151,17 @@ function App() {
           <header className="header">
             <h1>Dashboard de Matriculas 2026</h1>
             <p>Acompanhamento em Tempo Real do Progresso de Captacao</p>
-            <button
-              className="header-admin-btn"
-              onClick={() => setCurrentPage('admin')}
-            >
-              Gerenciar Matriculas
-            </button>
+            <div className="header-actions">
+              <span className={`cloud-status ${useCloud ? 'online' : 'offline'}`}>
+                {saving ? '⏳ Salvando...' : useCloud ? '☁️ Sincronizado' : '💾 Local'}
+              </span>
+              <button
+                className="header-admin-btn"
+                onClick={() => setCurrentPage('admin')}
+              >
+                Gerenciar Matriculas
+              </button>
+            </div>
           </header>
 
           <Dashboard
