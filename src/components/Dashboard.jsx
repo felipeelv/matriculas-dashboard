@@ -151,8 +151,9 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
             {item.serie}
           </div>
         </td>
-        <td className="value-cell">{item.total_2025}</td>
-        <td className="value-cell">{item.total_2026}</td>
+        <td className="value-cell highlight-cell">
+          <strong>{item.total_2026}</strong>
+        </td>
         <td className="turma-cell">
           {renderTurmaInfo(item)}
         </td>
@@ -191,8 +192,7 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
     return (
       <tr className="subtotal-row">
         <td><strong>{label}</strong></td>
-        <td className="value-cell"><strong>{totais.total2025}</strong></td>
-        <td className="value-cell"><strong>{totais.total2026}</strong></td>
+        <td className="value-cell highlight-cell"><strong>{totais.total2026}</strong></td>
         <td className="turma-cell">
           <span className="turma-summary">
             {turmaInfo.turmasCompletas} turma{turmaInfo.turmasCompletas !== 1 ? 's' : ''} completa{turmaInfo.turmasCompletas !== 1 ? 's' : ''}
@@ -222,52 +222,47 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
 
   return (
     <div className="dashboard">
-      {/* Cards de Metricas */}
-      <div className="cards-container">
-        <div className="metric-card primary">
-          <div className="metric-card-header">
-            <span className="metric-card-title">Total 2025</span>
-            <div className="metric-card-icon">📚</div>
-          </div>
-          <div className="metric-card-value">{total2025}</div>
-          <div className="metric-card-subtitle">
-            Matriculas ano anterior
-          </div>
-        </div>
+      {/* Referencia 2025 - Simples */}
+      <div className="reference-2025">
+        <span className="reference-label">Referência 2025:</span>
+        <span className="reference-value">{total2025} matrículas</span>
+        <span className={`reference-trend ${variacao >= 0 ? 'up' : 'down'}`}>
+          {variacao >= 0 ? '↑' : '↓'} {Math.abs(variacao)}% vs 2025
+        </span>
+      </div>
 
-        <div className="metric-card success">
+      {/* Cards Principais - Destaque 2026 */}
+      <div className="cards-container">
+        <div className="metric-card highlight">
           <div className="metric-card-header">
-            <span className="metric-card-title">Total 2026</span>
+            <span className="metric-card-title">Matrículas 2026</span>
             <div className="metric-card-icon">🎯</div>
           </div>
           <div className="metric-card-value">{total2026}</div>
           <div className="metric-card-subtitle">
-            <span className={`metric-card-trend ${variacao >= 0 ? 'up' : 'down'}`}>
-              {variacao >= 0 ? '↑' : '↓'} {Math.abs(variacao)}%
-            </span>
-            vs ano anterior
+            Total de matrículas atuais
           </div>
         </div>
 
         <div className="metric-card warning">
           <div className="metric-card-header">
-            <span className="metric-card-title">Meta</span>
+            <span className="metric-card-title">Meta 2026</span>
             <div className="metric-card-icon">🏆</div>
           </div>
           <div className="metric-card-value">{meta}</div>
           <div className="metric-card-subtitle">
-            Objetivo de matriculas
+            Objetivo de matrículas
           </div>
         </div>
 
         <div className="metric-card danger">
           <div className="metric-card-header">
-            <span className="metric-card-title">Gap</span>
+            <span className="metric-card-title">Faltam</span>
             <div className="metric-card-icon">📊</div>
           </div>
-          <div className="metric-card-value">{gap}</div>
+          <div className="metric-card-value">{gap > 0 ? gap : 0}</div>
           <div className="metric-card-subtitle">
-            Matriculas restantes
+            {gap <= 0 ? 'Meta atingida!' : 'Para atingir a meta'}
           </div>
         </div>
       </div>
@@ -275,7 +270,7 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
       {/* Barra de Progresso Geral */}
       <div className="progress-section">
         <div className="progress-header">
-          <span className="progress-title">Progresso Geral da Meta</span>
+          <span className="progress-title">Progresso da Meta 2026</span>
           <span className="progress-percentage">{percentualMeta}%</span>
         </div>
         <div className="progress-bar-container">
@@ -288,7 +283,7 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
         </div>
         <div className="progress-labels">
           <span>0</span>
-          <span>Meta: {meta} matriculas</span>
+          <span>Meta: {meta} matrículas</span>
         </div>
       </div>
 
@@ -320,9 +315,8 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
           <table className="data-table">
             <thead>
               <tr>
-                <th>Serie</th>
-                <th>2025</th>
-                <th>2026</th>
+                <th>Série</th>
+                <th className="highlight-header">2026</th>
                 <th>Turmas</th>
                 <th>Meta</th>
                 <th>Gap</th>
@@ -333,11 +327,11 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
             <tbody>
               {/* Ensino Fundamental */}
               <tr className="segment-header">
-                <td colSpan="8">
+                <td colSpan="7">
                   <div className="segment-title">
                     <span className="segment-icon">📘</span>
                     Ensino Fundamental
-                    <span className="segment-info">(24 alunos por turma)</span>
+                    <span className="segment-info">(24 alunos por turma • Meta: 2 turmas)</span>
                   </div>
                 </td>
               </tr>
@@ -346,16 +340,16 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
 
               {/* Ensino Médio */}
               <tr className="segment-header">
-                <td colSpan="8">
+                <td colSpan="7">
                   <div className="segment-title">
                     <span className="segment-icon">📗</span>
-                    Ensino Medio
-                    <span className="segment-info">(48 alunos por turma)</span>
+                    Ensino Médio
+                    <span className="segment-info">(48 alunos por turma • Meta: 1 turma)</span>
                   </div>
                 </td>
               </tr>
               {medio.map((item, index) => renderRow(item, `medio-${index}`))}
-              {renderSubtotal(totaisMedio, 'Subtotal Medio', ALUNOS_POR_TURMA_MEDIO)}
+              {renderSubtotal(totaisMedio, 'Subtotal Médio', ALUNOS_POR_TURMA_MEDIO)}
             </tbody>
           </table>
         </div>
