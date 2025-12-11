@@ -116,36 +116,25 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
 
     return (
       <div className="turma-info">
-        {/* Turmas completas */}
+        {/* Turmas completas - mostra quantidade de alunos */}
         {turmasCompletasArray.length > 0 && (
           <div className="turmas-completas">
             {turmasCompletasArray.map(letra => (
               <span key={letra} className="turma-badge complete">
-                {letra} <span className="turma-check">✓</span>
+                {letra}: {alunosPorTurma} <span className="turma-check">✓</span>
               </span>
             ))}
           </div>
         )}
 
-        {/* Turma atual em preenchimento */}
+        {/* Turma atual em preenchimento - mostra meta para completar */}
         {turmaInfo.alunosTurmaAtual > 0 && (
           <div className="turma-atual">
             <span className="turma-badge current">
-              {turmaInfo.turmaAtual}
+              {turmaInfo.turmaAtual}: {turmaInfo.alunosTurmaAtual}
             </span>
-            <div className="turma-progress">
-              <div className="turma-progress-bar">
-                <div
-                  className="turma-progress-fill"
-                  style={{ width: `${(turmaInfo.alunosTurmaAtual / alunosPorTurma) * 100}%` }}
-                ></div>
-              </div>
-              <span className="turma-progress-text">
-                {turmaInfo.alunosTurmaAtual}/{alunosPorTurma}
-              </span>
-            </div>
-            <span className="turma-faltam">
-              Faltam {turmaInfo.faltamParaCompletar}
+            <span className="turma-meta">
+              Meta: +{turmaInfo.faltamParaCompletar}
             </span>
           </div>
         )}
@@ -153,8 +142,8 @@ function Dashboard({ dados, total2025, total2026, meta, gap, percentualMeta }) {
         {/* Se nao tem alunos */}
         {item.total_2026 === 0 && (
           <div className="turma-atual">
-            <span className="turma-badge empty">A</span>
-            <span className="turma-faltam">Aguardando</span>
+            <span className="turma-badge empty">A: 0</span>
+            <span className="turma-meta">Meta: +{alunosPorTurma}</span>
           </div>
         )}
       </div>
