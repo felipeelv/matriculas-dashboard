@@ -756,6 +756,23 @@ body {
   white-space: nowrap;
 }
 
+.turma-meta {
+  font-size: 0.7rem;
+  color: var(--color-primary);
+  font-weight: 600;
+  white-space: nowrap;
+  background: var(--color-primary-light);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+}
+
+.turma-atual {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .turma-summary {
   font-size: 0.75rem;
   font-weight: 500;
